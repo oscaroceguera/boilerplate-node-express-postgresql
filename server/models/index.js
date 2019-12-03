@@ -3,7 +3,11 @@ import db from '../config/database';
 
 const models = {
   User: db.import('./user'),
-  Message: db.import('./message')
+  Ticket: db.import('./ticket'),
+  Employee: db.import('./employee'),
+  Request: db.import('./request'),
+  Status: db.import('./status')
+  // Message: db.import('./message')
 };
 
 Object.keys(models).forEach(key => {
