@@ -1,10 +1,11 @@
 import models from '../models';
+
 import { isEmpty } from '../utils/nativeMethods';
 
 const add = async (req, res) => {
   try {
     const { body } = req;
-    const response = await models.User.create(body);
+    const response = await models.Employee.create(body);
 
     res.send(response).status(201);
   } catch (err) {
@@ -14,8 +15,8 @@ const add = async (req, res) => {
 
 const list = async (req, res) => {
   try {
-    // find by attributes User.findAll({ attributes: ['name', '..']})
-    const response = await models.User.findAll();
+    // find by attributes Employee.findAll({ attributes: ['name', '..']})
+    const response = await models.Employee.findAll();
 
     if (isEmpty(response)) {
       return res.status(204).send('Not content');
@@ -30,7 +31,7 @@ const list = async (req, res) => {
 const byId = async (req, res) => {
   try {
     const pk = req.params.id;
-    const response = await models.User.findByPk(pk);
+    const response = await models.Employee.findByPk(pk);
 
     if (isEmpty(response)) {
       return res.status(204).send('Not content');
@@ -45,7 +46,7 @@ const byId = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const pk = req.params.id;
-    const response = await models.User.destroy({
+    const response = await models.Employee.destroy({
       where: {
         id: pk
       }
@@ -55,29 +56,25 @@ const remove = async (req, res) => {
       return res.status(204).send('Not content');
     }
 
-    res.send('User has been delete.');
+    res.send('Employee has been delete.');
   } catch (err) {
     res.status(500).send(err.errors[0].message);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateEmployee = async (req, res) => {
   try {
     const {
       params: { id }
     } = req;
     const body = req.body;
 
-    const response = await models.User.update(body, { where: { id: id } });
+    const response = await models.Employee.update(body, { where: { id: id } });
 
-    if (isEmpty(response)) {
-      return res.status(204).send('Not content');
-    }
-
-    res.send('User has been updated.');
+    res.send('Employee has been updated.');
   } catch (err) {
     res.status(500).send(err.errors[0].message);
   }
 };
 
-export { add, list, byId, remove, updateUser };
+export { add, list, byId, remove, updateEmployee };

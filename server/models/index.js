@@ -7,7 +7,6 @@ const models = {
   Employee: db.import('./employee'),
   Request: db.import('./request'),
   Status: db.import('./status')
-  // Message: db.import('./message')
 };
 
 Object.keys(models).forEach(key => {
