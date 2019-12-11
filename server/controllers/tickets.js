@@ -50,7 +50,28 @@ const createTicket = async (req, res) => {
  */
 const list = async (req, res) => {
   try {
-    const data = await models.Ticket.findAll();
+    const data = await models.Ticket.findAll({
+      attributes: ['id', 'description', 'feedback'],
+      include: [
+        {
+          model: models.Status,
+          attributes: ['id', 'value']
+        },
+        {
+          model: models.Request,
+          attributes: ['id', 'value']
+        },
+        {
+          model: models.User,
+          attributes: ['id', 'name', 'email']
+        },
+        {
+          model: models.Employee,
+          attributes: ['id', 'name', 'email']
+        }
+      ]
+    });
+
     res.send(data).status(200);
   } catch (error) {
     res.status(500).send(err.errors[0].message);
@@ -64,7 +85,27 @@ const detail = async (req, res) => {
   try {
     const { ticketId } = req.params;
 
-    const data = await models.Ticket.findByPk(ticketId);
+    const data = await models.Ticket.findByPk(ticketId, {
+      attributes: ['id', 'description', 'feedback'],
+      include: [
+        {
+          model: models.Status,
+          attributes: ['id', 'value']
+        },
+        {
+          model: models.Request,
+          attributes: ['id', 'value']
+        },
+        {
+          model: models.User,
+          attributes: ['id', 'name', 'email']
+        },
+        {
+          model: models.Employee,
+          attributes: ['id', 'name', 'email']
+        }
+      ]
+    });
 
     if (isEmpty(data)) return res.status(404).send(ticketNotFound);
 

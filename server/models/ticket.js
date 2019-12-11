@@ -15,14 +15,10 @@ const ticket = (sequelize, DataTypes) => {
   });
 
   Ticket.associate = models => {
-    Ticket.belongsTo(models.User, {
-      foreignKey: 'userId',
-      as: 'user'
-    });
-    Ticket.belongsTo(models.Employee, {
-      foreignKey: 'employeeId',
-      as: 'employee'
-    });
+    Ticket.belongsTo(models.User);
+    Ticket.belongsTo(models.Employee);
+    Ticket.belongsTo(models.Status);
+    Ticket.belongsTo(models.Request);
   };
 
   return Ticket;

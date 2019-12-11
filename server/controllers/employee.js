@@ -16,7 +16,28 @@ const add = async (req, res) => {
 const list = async (req, res) => {
   try {
     // find by attributes Employee.findAll({ attributes: ['name', '..']})
-    const response = await models.Employee.findAll();
+    const response = await models.Employee.findAll({
+      include: [
+        {
+          model: models.Ticket,
+          attributes: ['id', 'description', 'feedback'],
+          include: [
+            {
+              model: models.Status,
+              attributes: ['id', 'value']
+            },
+            {
+              model: models.Request,
+              attributes: ['id', 'value']
+            },
+            {
+              model: models.User,
+              attributes: ['id', 'name', 'email']
+            }
+          ]
+        }
+      ]
+    });
 
     if (isEmpty(response)) {
       return res.status(204).send('Not content');
@@ -31,7 +52,28 @@ const list = async (req, res) => {
 const byId = async (req, res) => {
   try {
     const pk = req.params.id;
-    const response = await models.Employee.findByPk(pk);
+    const response = await models.Employee.findByPk(pk, {
+      include: [
+        {
+          model: models.Ticket,
+          attributes: ['id', 'description', 'feedback'],
+          include: [
+            {
+              model: models.Status,
+              attributes: ['id', 'value']
+            },
+            {
+              model: models.Request,
+              attributes: ['id', 'value']
+            },
+            {
+              model: models.User,
+              attributes: ['id', 'name', 'email']
+            }
+          ]
+        }
+      ]
+    });
 
     if (isEmpty(response)) {
       return res.status(204).send('Not content');
